@@ -11,3 +11,7 @@ I found that the 2.3.5 firmware to be the most stable.
 Post printer profiles for various slicers
 
 Compile new firmware to incorporate additional fixes - mainly dimensional accuracy, drop serial baud rate to work better with octopi, etc. If you have any requests please let me know :)
+
+<b>Thanks:</b>
+
+Firmware - a clone of jimaobian/OverlordFirmware
