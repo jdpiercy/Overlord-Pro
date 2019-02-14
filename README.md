@@ -2,11 +2,11 @@
 
 My collection of Firmware, CAD files, Motherboard Schematics, Manuals, Printer Profiles, etc. for the Overlord / Overlord Pro 3D Delta Printers. I have create this repository in the hope it helps other owners of these 3D printers, as support is all but non-existant from Dreammaker.
 
-Notes:
+<b>Notes:</b>
 
 I found that the 2.3.5 firmware to be the most stable.
 
-Todo:
+<b>Todo:</b>
 
 Post printer profiles for various slicers
 
