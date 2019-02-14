@@ -10,4 +10,4 @@ Todo:
 
 Post printer profiles for various slicers
 
-Compile new firmware to incorporate additional fixes - mainly dimensional accuracy, drop serial baud rate to work better with octop, etc
+Compile new firmware to incorporate additional fixes - mainly dimensional accuracy, drop serial baud rate to work better with octopi, etc. If you have any requests please let me know :)
