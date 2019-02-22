@@ -1,0 +1,58 @@
+Overlord Pro Setting with Original Extruder Stock: 73.00 Calibrated: 70.87
+
+How To:
+
+Calibrating extruder steps/mm
+To calibrate the steps/mm value, we tell the printer to extrude 100mm of plastic. Then we’ll measure how much plastic it extruded and see if it actually was 100mm – pretty simple right!
+
+Measuring
+To do this, first measure out 120mm of filament from where it enters your extruder and mark it with a pen or marker. This will be the reference point. Then, connect your computer to your printer and open up a program that allows you to send individual gcode commands to it (like Pronterface,  Simplify 3D, Repetier Host, or Octoprint web interface). Heat up your extruder to your regular printing temperature. Then we want to make sure that the extruder is in relative mode, so send the command M83 using the textbox in the bottom right hand corner if you’re using Pronterface. In Simplify 3D you’ll want to open up the machine control panel window and go to the communication tab. All the commands that I’ll be referring to later in this post should all be entered in this way.
+
+Then, tell the printer to extrude 100mm of plastic with the command G1 E100 F100. This will take 60 seconds until it’s finished extruding. Why are we extruding it so slow? Because extruding slowly in this step ensures that the resistance of the plastic further down when it is being pushed into the nozzle, does not effect how much is fed in by the stepper motor. It also helps to take the temperature out of the equation, again by reducing the effects of pressure in the nozzle to virtually nothing.
+
+Once the machine has finished extruding the 100mm, switch off the extruder heater and measure the distance between the point that you marked before we started, and where the plastic enters the extruder (the same point from which you measured the initial 120mm). If this is exactly 20mm, congratulations! Your extruder steps/mm are perfectly calibrated. If it is more or less than 20mm, then it means that your printer is over or under extruding. Fortunately the way to solve this is fairly easy.
+
+Tuning
+In order to calculate what our new steps/mm value will be, we need to know the existing steps/mm value, and the under/over extrusion rate. To get the existing steps/mm value, send the command M503. This will print out all the current values saved in your printers EEPROM (storage that persists when it is powered off), including all your axis steps/mm values. We’re only interested in the E value, highlighted in the picture below.
+
+Extruder steps/mm
+
+Now we get to do some maths! Yay. We need to work out how much plastic your printer actually extruded, which can be calculated from: 120 mm – left over filament distance (measured in the previous step). For example, for me this was 120 - 26 = 94.
+
+Remaining filament measurement
+
+So my printer was actually only extruding 94 mm when I asked it to extrude 100 mm – that’s a 6% under extrusion! So, to calculate the new, correct extruder steps/mm value, we do the following –
+
+Original extruder steps/mm value × 100 mm = total steps taken:
+161.3 × 100 = 16130
+
+From that, we can extrapolate that calibrated extruder steps/mm value (y) × actual extruded distance = total steps taken:
+y × 94 = 16130
+
+Therefore, calibrated extruder steps/mm value (y) = total steps taken / actual extruded distance:
+y = 16130 / 94
+= 171.6
+
+This is our new calibrated extruder steps/mm value! To enter and save it to your printer use the commands M92 E###.# (replace the hashes with your calibrated extruder steps/mm value) and then M500 to save it. The Prusa i3 MK2 must be running a recent firmware version to enable saving to EEPROM.
+
+Saving extruder steps/mm to EEPROM
+
+To make sure that this has all worked out as intended, turn your printer off and on or reset it and then send the command M503 again to check if your new extruder steps/mm value is shown. To do a final test to make sure it’s correctly calibrated, measure out another 120 mm of filament, mark it, and then extrude 100 mm. You should have exactly 20 mm left over. If not, recalibrate using the steps above and your new steps/mm value as the original.
+
+Calibrating extrusion multiplier
+Now that we know the right amount of filament is being fed into the hotend by the extruder mechanism, we need to make sure that the filament being extruded is the same amount as what our slicer thinks it is. We can do this by printing a single perimeter cube and checking if the width of the walls are the same as our extrusion width.
+
+To begin, accurately measure your filament diameter, preferably with some digital calipers. Enter this into your slicing software. Then, make sure that your extrusion multiplier is set to 1. Check what your extrusion width is and remember it – that’s what we’ll be comparing to later on.
+
+Load a 25 mm cube into your slicer and set the infill to 0%, perimeters to 1, and top solid layers to 0. You’ll also want to print it at a fine resolution – I chose 0.15 mm and it actualy did make a small (0.02 mm) difference in the wall thickness as opposed to 0.3 mm. Print it out and then use digital calipers to measure the thickness of the walls. Your aim is to get this to be the same as your extrusion width set in your slicer. Adjust your new extrusion multiplier to: (extrusion width / measured wall thickness) × extrusion multiplier.
+
+Cube comparison
+
+For example, since my walls first came out as 0.5 mm even though I set my extrusion width to 0.45 mm, my extrusion multiplier would need to be changed to (0.45/0.5) × 1 = 0.9. Enter this into your slicer and print the model again and re test. If your measurements and your calculations were correct it should only take one adjustment, but sometimes it might take a few tries to get it right. This extrusion multiplier value should be calibrated and set on a per material basis due to the different flow characteristics of different materials when extruded (eg. viscosity).
+
+Measurement comparison
+
+Finalisation
+Your extruder should now be fully calibrated! Enjoy printing knowing that you have everything dialed in perfectly. If you’re finding that your prints look like they’re over extruding or under extruding, first check your filament diameter and make sure it’s the exact same as what you have in your slicer. If it is and you’re still having minor issues, don’t be afraid to change your extrusion multiplier up or down a few %. The tests above are all prone to errors (most likely in measurements), and what’s most important is how the prints actually come out. So if you need to change it a little bit then that’s fine!
+
+https://mattshub.com/2017/04/19/extruder-calibration/
